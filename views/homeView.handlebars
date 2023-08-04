@@ -1,0 +1,14 @@
+<div class="mt-4 mx-auto" style="width: 600px;">
+  <form method="POST" action="/">
+    <div class="form-group">
+      {{!-- <label for="customer-input">Customer</label> --}}
+      <select name="customer" class = "form-control" id="customer-input">
+          <option selected>Select Customer</option>
+          {{#each data}}
+          <option value={{this.id}}>{{this.fullName}}</option>
+          {{/each}}
+      </select>
+      <button type="submit" class="btn btn-primary mt-2">Start Shopping</button>
+    </div>
+  </form>
+</div>
