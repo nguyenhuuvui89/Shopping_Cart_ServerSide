@@ -1,0 +1,22 @@
+<div class= 'mt-4 mx-auto' style="width: 600px;">
+  <form method="POST" action="/user/{{slug}}/cart">
+    <div class="form-group ">
+      <label for="productName">Product Name:</label>
+      <input type="text" name = 'productName' value = '{{product.productName}}' class="form-control" id="productName">
+      <input type="hidden" name = 'productId' class="form-control" value='{{product._id}}'>
+      <input type="hidden" name = 'customerId' class="form-control" value='{{slug}}'>
+    </div>
+
+    <div class="form-group mt-4 mb-4">
+      <label for="availableQtn">Available Quantity:</label>
+      <input type="number" name = 'availableQtn' class="form-control" value={{product.quantity}}>
+    </div>
+
+    <div class="form-group ">
+      <label for="customerQtn">Enter Your Quantity:</label>
+      <input type="number" name = 'customerQtn' class="form-control" id="customerQtn" required>
+    </div>
+
+    <button type="submit" class="mt-2 btn btn-primary">Submit</button>
+  </form>
+</div>

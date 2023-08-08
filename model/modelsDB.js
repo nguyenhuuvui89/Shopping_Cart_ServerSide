@@ -21,9 +21,12 @@ customerSchema.methods.getFullName = function () {
 };
 
 const cartSchema = new Schema({
+  product_id: String,
+  customer_id: String,
   productName: String,
   price: Number,
   quantity: Number,
+  image: String,
 }, { collection: 'cart' });
 
 const Product = mongoose.model('product', productSchema);

@@ -12,21 +12,21 @@ const products = [{
   productName: 'Bananas',
   description: 'Fruits',
   price: 0.5,
-  quantity: 5,
+  quantity: 50,
   image: 'https://www.thedailymeal.com/img/gallery/13-delicious-things-you-can-make-with-bananas/l-intro-1673458653.jpg'
 },
 {
   productName: 'Milk',
   description: 'Dairy',
   price: 1.99,
-  quantity: 4,
+  quantity: 40,
   image: 'https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png'
 },
 {
   productName: 'Bread',
   description: 'Bakery',
   price: 2.49,
-  quantity: 1,
+  quantity: 100,
   image: 'https://static01.nyt.com/images/2015/04/30/dining/29BIGAPPETITE/29BIGAPPETITE-superJumbo.jpg'
 },
 {
@@ -41,7 +41,7 @@ const products = [{
   productName: 'Tomatoes',
   description: 'Vegetables',
   price: 1.2,
-  quantity: 3,
+  quantity: 30,
   image: 'https://assets.shop.loblaws.ca/products/20840038001/b1/en/front/20840038001_front_a01_@2.png'
 
 },

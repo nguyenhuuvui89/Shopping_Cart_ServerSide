@@ -1,10 +1,13 @@
 <div class="navbar navbar-expand-lg navbar-light bg-light mx-auto " style="width: 50vw;">
   <ul class="navbar-nav mx-5">
+        <li class="nav-item active">
+          <a class="nav-link" href="/user/{{id}}">Display All Items </a>
+        </li>
     <li class="nav-item active">
       <a class="nav-link" href="#">My Order </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/user/cart">Shopping Cart</a>
+      <a class="nav-link" href="/cart?user={{id}}">Shopping Cart</a>
     </li>
   </ul>
   <form method = "POST" action="/user/{{id}}"  class="d-flex" role="search">
@@ -14,18 +17,21 @@
 </div>
 <div class="mp-2 d-flex justify-content-center flex-wrap ">
   {{#each data}}
-  <div class="card mx-5 my-5" style="width: 15rem;">
-    <img src={{this.image}} class="card-img-top mt-2" alt="..." width= '10' height="50%">
+  <div class="card mx-5 my-5" style="width: 18rem;">
+    <img src={{this.image}} class="card-img-top mt-2" alt="..." width= '15' height="50%">
     <div class="card-body">
       <h5 class="card-title">{{this.productName}}</h5>
+      <p>ItemID: <i>{{this._id}}</i> </p>
       <ul>
         <li>Price: $ {{this.price}}</li>
         <li>Quantity: {{this.quantity}}</li>
       </ul>
       <p class="card-text">Description: {{this.description}}. </p>
-
-      <a href="#" class="btn btn-primary">Add to Cart</a>
+      
+{{!-- ../id to access parent id (customer id of { data: products, id }) --}}
+      <a href="/user/{{../id}}/{{this._id}}" class="btn btn-primary" >Add to Cart</a>
     </div>
   </div>
   {{/each}}
+  
 </div>
