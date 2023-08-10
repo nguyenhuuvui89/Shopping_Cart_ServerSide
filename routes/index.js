@@ -2,18 +2,18 @@ const express = require('express');
 
 const router = express.Router();
 const UserController = require('./userController');
+const AdminController = require('./adminController');
 const homeView = require('./homeView');
 
 // HomeView
 router.get('/', homeView.home);
 router.post('/', homeView.userDisplay);
 
-// admin interface
-router.get('/admin', (req, res) => {
-  res.render('adminInterface');
-});
+// 1. Admin interface
+router.get('/admin', AdminController.displayProducts);
+router.post('/admin', AdminController.searchProduct);
 
-// user interface
+// 2. User interface
 // Click into Shopping Cart;
 
 router.get('/user/:slug', UserController.displayProducts);
@@ -38,7 +38,10 @@ router.get('/cart/:slug/remove', UserController.removeItemInCart);
 router.post('/user/:slug/cart/edit', UserController.addCartAfterEdit);
 router.post('/user/:slug/cart/remove', UserController.removeItem);
 
-// [GET] user/checkout?user={{slug}} for checkout view and insert data into Order
-router.get('/checkout', UserController.checkOut);
+// [GET] user/checkout?user={slug} for checkout view and insert data into Order
+router.post('/checkout', UserController.checkOut);
+
+// [Get] /order?user={slug} for order view
+router.get('/order', UserController.orderView);
 
 module.exports = router;

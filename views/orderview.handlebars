@@ -1,0 +1,39 @@
+<section class="container mt-5 mb-5">
+    <article class="card position-relative d-flex flex-column min-width-0 border border-light-dark rounded p-1">
+        <h3 class="card-header card-header  border-bottom py-3 px-4"> My Orders / Tracking </h3>
+        {{#each data}}
+        <div class="card-body">
+            <h6>Order ID: <i>{{this._id}}</i></h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Order Date:</strong> <br>{{this.date}} </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br> {{this._id}} </div>
+                </div>
+            </article>
+            <div class="track d-flex position-relative bg-secondary my-5">
+                <div class="step active flex-grow-1 text-center position-relative"> <span class="icon position-relative d-inline-block rounded-circle  text-center"> <i class="fa fa-check"></i> </span> <span class="text d-block mt-1">Order confirmed</span> </div>
+                <div class="step active flex-grow-1 text-center position-relative"> <span class="icon position-relative d-inline-block rounded-circle  text-center"> <i class="fa fa-user"></i> </span> <span class="text d-block mt-1"> Picked by courier</span> </div>
+                <div class="step flex-grow-1 text-center position-relative"> <span class="icon position-relative d-inline-block rounded-circle bg-secondary text-center"> <i class="fa "></i> </span> <span class="text d-block mt-1"> On the way </span> </div>
+                <div class="step flex-grow-1 text-center position-relative"> <span class="icon position-relative d-inline-block rounded-circle bg-secondary text-center"> <i class="fa"></i> </span> <span class="text d-block mt-1">Ready for pickup</span> </div>
+            </div>
+            <hr class="mt-4">
+            <ul class="row">
+              {{#each products}}
+                <li class="col-md-4">
+                    <figure class="itemside mb-3 position-relative d-flex">
+                        <div class="aside position-relative flex-shrink-0"><img src="{{this.image}}" class="img-sm border"></div>
+                        <figcaption class="info align-self-center">
+                            <p class="title d-block"><br> {{this.productName}}</p>
+                            <span class="text-muted"> Quantity: {{this.quantity}} </span>
+                        </figcaption>
+                    </figure>
+                </li>
+              {{/each}}
+            </ul>
+        </div>
+        <hr class="mt-4">
+    {{/each}}
+            <hr class="mt-4">
+            <a class=" btn btn-success mx-4 text-decoration-none" href="/user/{{slug}}">Back To Main</a>
+    </article>
+</section>

@@ -37,9 +37,17 @@
       <div class="col">TOTAL PRICE</div>
       <div class="col text-right">&dollar; {{total_price}}</div>
     </div>
-    <div class="mt-4">
-      <a class=" btn btn-primary mx-4 text-decoration-none" id="checkoutButton" href="/checkout?user={{slug}}" {{#unless numberProduct}}disabled{{/unless}}>Place Order</a>
-      <a class=" btn btn-danger mx-4 text-decoration-none" href="/user/{{slug}}">Cancel</a>
+    <div class="d-flex">
+      <div>
+        <form action="/checkout" method="post">
+          <input type="hidden" name="user" value="{{slug}}">
+          <button type="submit" class=" btn btn-primary mx-4 text-decoration-none" id="checkoutButton" {{#unless
+            numberProduct}}disabled{{/unless}}>Place Order</button>
+        </form>
+      </div>
+      <div>
+        <a class=" btn btn-danger mx-4 text-decoration-none" href="/user/{{slug}}">Cancel</a>
+      </div>
     </div>
   </div>
 </div>

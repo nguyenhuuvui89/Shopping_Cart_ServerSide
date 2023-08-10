@@ -6,9 +6,9 @@ const { Product, Customer, Cart, Order } = require('../model/modelsDB');
 class UserController {
   // [GET]/user and /user/:slug
   displayProducts = async (req, res, next) => {
-    const id = req.params.slug;
+    const id = req.params.slug; // (this id is user id not product id)
     const products = await Product.find({}).lean();
-    // when using direct products data from json, handlebar will denied, 
+    // when using direct products data from json, handlebar will denied,
     // so need to add lean() to get access
     res.render('userInterface', { data: products, id });
   };
@@ -193,11 +193,16 @@ class UserController {
 
   // [GET] /checkout?user={{slug}} for checkout view and insert data into Order
   checkOut = async(req, res, next) => {
-    const slug = req.query.user;
+    const slug = req.body.user;
     const productInCart = await Cart.find({ customer_id: slug });
     const orderProducts = [];
     productInCart.forEach((product) => {
       const { productName, quantity, image } = product;
+      orderProducts.push({
+        productName,
+        quantity,
+        image,
+      });
       // const productName = product.productName;
       // const quantity = product.quantity;
       // const image = product.image;
@@ -209,11 +214,6 @@ class UserController {
       // };
       // orderProducts.push(orderProduct);
       // ---Use shorthand because the variable names match property names
-      orderProducts.push({
-        productName,
-        quantity,
-        image,
-      });
     });
     // create a new order in the Order collection
     const order = new Order({
@@ -223,6 +223,36 @@ class UserController {
     await order.save();
     await Cart.deleteMany({ customer_id: slug });
     res.render('ordersuccess', { slug });
+  };
+
+  // [Get] /order?user={slug} for order view
+  orderView = async(req, res, next) => {
+    const slug = req.query.user;
+    const orders = await Order.find({ customer_id: slug }).lean();
+
+    // Side Note: Example orders results
+    // [
+    //   {
+    //     _id: new ObjectId("64d501b2fc234159568af467"),
+    //     customer_id: '64d4569a09715a839380c872',
+    //     products: [ [Object] ],
+    //     date: 2023-08-10T15:26:42.696Z,
+    //     __v: 0
+    //   },
+    //   {
+    //     _id: new ObjectId("64d501dbfc234159568af477"),
+    //     customer_id: '64d4569a09715a839380c872',
+    //     products: [ [Object] ],
+    //     date: 2023-08-10T15:27:23.595Z,
+    //     __v: 0
+    //   },]
+    // (loop through data get object, loop through
+    // products get product detail in orderview.handlebars)
+    if (orders.length === 0) {
+      res.render('noorder');
+    } else {
+      res.render('orderview', { data: orders, slug });
+    }
   };
 }
 
