@@ -1,25 +1,28 @@
 <div class= 'mt-4 mx-auto' style="width: 600px;">
-  <h2 class="px-5 my-3">Add To Cart</h2>
-  <form method="POST" action="/user/{{slug}}/cart">
+  <h2 class="px-5 my-3">Edit Product Quantity</h2>
+  <form method="POST" action="/user/{{slug}}/cart/edit">
     <div class="form-group ">
       <label for="productName">Product Name:</label>
       <input type="text" name = 'productName' value = '{{product.productName}}' class="form-control" id="productName" readonly>
-      <input type="hidden" name = 'productId' class="form-control" value='{{product._id}}'>
+      <input type="hidden" name = 'productId' class="form-control" value='{{product.product_id}}'>
       <input type="hidden" name = 'customerId' class="form-control" value='{{slug}}'>
     </div>
-
     <div class="form-group mt-4 mb-4">
       <label for="availableQtn">Available Quantity:</label>
-      <input type="number" name = 'availableQtn' class="form-control" value={{product.quantity}} readonly>
+      <input type="number" name = 'availableQtn' class="form-control" value={{availableQtn}} readonly>
+    </div>
+    <div class="form-group mt-4 mb-4">
+      <label for="oldQtn">Old Quantity:</label>
+      <input type="number" name = 'oldQtn' class="form-control" value={{product.quantity}} readonly>
     </div>
 
     <div class="form-group ">
-      <label for="customerQtn">Enter Your Quantity:</label>
+      <label for="customerQtn">Update Quantity:</label>
       <input type="number" name = 'customerQtn' class="form-control" id="customerQtn" required>
     </div>
-    <div class="mt-4">
-      <button type="submit" class=" mx-4 btn btn-primary">Add Item</button>
+    <div class='mt-4'>
+      <button type="submit" class=" mx-4 btn btn-primary">Update</button>
       <a class=" mx-4 btn btn-danger text-decoration-none" href="/user/{{slug}}">Cancel</a>
-    </div>
+   </div>
   </form>
 </div>

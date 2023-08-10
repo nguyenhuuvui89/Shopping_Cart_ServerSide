@@ -29,9 +29,22 @@ const cartSchema = new Schema({
   image: String,
 }, { collection: 'cart' });
 
+const orderSchema = new Schema({
+  date: { type: Date, default: Date.now },
+  customer_id: String,
+  products: [
+    {
+      productName: String,
+      quantity: Number,
+      image: String,
+    },
+  ],
+}, { collection: 'order' });
+
+const Order = mongoose.model('order', orderSchema);
 const Product = mongoose.model('product', productSchema);
 const Customer = mongoose.model('customer', customerSchema);
 const Cart = mongoose.model('cart', cartSchema);
 module.exports = {
-  Product, Customer, Cart,
+  Product, Customer, Cart, Order,
 };

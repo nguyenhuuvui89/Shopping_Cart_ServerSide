@@ -15,9 +15,10 @@
         <div class="row">{{this.productName}}</div>
       </div>
       <div class="col">
-        <a href="#">-</a><a href="#" class="border">{{this.quantity}}</a><a href="#">+</a>
+        <a>{{this.quantity}}</a>
       </div>
-      <div class="col">&dollar; {{this.price}} </div>
+      <div class="col">&dollar; {{this.price}} <a class = 'mx-4 btn btn-link text-decoration-none' href="/cart/{{this.customer_id}}/edit?product_id={{this.product_id}}">Edit</a> 
+      <a class="link-danger text-decoration-none" href="/cart/{{this.customer_id}}/remove?product_id={{this._id}}">Remove</a></div>
     </div>
     {{/each}}
     
@@ -29,21 +30,27 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col">ITEMS: {{numberProduct}}</div>
-      <div class="col text-right">&dollar; {{total_price}}</div>
+      <div class="col">ITEMS: </div>
+      <div class="col text-right"> {{numberProduct}}</div>
     </div>
-    {{!-- <form>
-      <label class = "mb-2 "for="customer-input">SHIPPING</label>
-      <select name="shipping" class="form-control" id="customer-input">
-        <option selected>Select Shipping Methods</option>
-        <option value="1">Standard-Delivery- &dollar;5.00</option>
-        <option value="2">Fast-Delivery- &dollar;10.00</option>
-      </select>
-    </form> --}}
     <div class="row" "padding: 2vh 0;">
       <div class="col">TOTAL PRICE</div>
       <div class="col text-right">&dollar; {{total_price}}</div>
     </div>
-    <button type="button" class="btn btn-primary">CheckOut</button>
+    <div class="mt-4">
+      <a class=" btn btn-primary mx-4 text-decoration-none" id="checkoutButton" href="/checkout?user={{slug}}" {{#unless numberProduct}}disabled{{/unless}}>Place Order</a>
+      <a class=" btn btn-danger mx-4 text-decoration-none" href="/user/{{slug}}">Cancel</a>
+    </div>
   </div>
 </div>
+
+{{!-- Handle Checkout button, Can't click checkout if no item in cart. --}}
+<script>
+  const numberProduct = {{numberProduct}}; 
+  const checkoutButton = document.getElementById('checkoutButton');
+  if (numberProduct === 0) {
+    checkoutButton.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent the link to redirect to order success view
+    });
+  }
+</script>

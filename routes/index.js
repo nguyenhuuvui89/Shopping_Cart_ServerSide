@@ -27,5 +27,18 @@ router.get('/user/:slug/:id', UserController.add);
 
 // cart view /cart?user=
 router.get('/cart', UserController.cart);
+// edit item quantity in cart view '/cart/:slug/edit?product_id='
+router.get('/cart/:slug/edit', UserController.editCart);
+
+// remove item in cart view '/cart/:slug/remove?product_id='
+router.get('/cart/:slug/remove', UserController.removeItemInCart);
+
+// // Handle Post for edit quantity item in cart
+// (handle data at /user/:slug/cart/edit) and action="/user/{{slug}}/cart/edit"
+router.post('/user/:slug/cart/edit', UserController.addCartAfterEdit);
+router.post('/user/:slug/cart/remove', UserController.removeItem);
+
+// [GET] user/checkout?user={{slug}} for checkout view and insert data into Order
+router.get('/checkout', UserController.checkOut);
 
 module.exports = router;

@@ -1,0 +1,23 @@
+<div class= 'mt-4 mx-auto' style="width: 600px;">
+  <h2 class="px-5 my-3">Remove Product</h2>
+  <form method="POST" action="/user/{{slug}}/cart/remove">
+    <div class="form-group ">
+      <label for="productName">Product Name:</label>
+      <input type="text" name = 'productName' value = '{{product.productName}}' class="form-control" id="productName" readonly>
+      <input type="hidden" name = 'productId' class="form-control" value='{{product.product_id}}'>
+      <input type="hidden" name = 'cartProductId' class="form-control" value='{{product._id}}'>
+      <input type="hidden" name = 'customerId' class="form-control" value='{{slug}}'>
+    </div>
+    <div class="form-group ">
+      <label for="customerQtn">Quantity:</label>
+      <input type="number" name='customerQtn' value="{{product.quantity}}" class="form-control" id="customerQtn" readonly>
+    </div>
+    <div class="mt-4 h-100 d-flex align-items-center justify-content-center">
+      <img class="img-fluid" src={{product.image}}>
+    </div>
+    <div class='mt-4'>
+      <button type="submit" class=" mx-4 btn btn-danger">Remove</button>
+      <a class=" mx-4 btn btn-primary text-decoration-none" href="/user/{{slug}}">Cancel</a>
+    </div>
+  </form>
+</div>
