@@ -1,16 +1,21 @@
-<div class="d-flex justify-content-around navbar navbar-expand-lg navbar-light bg-light mx-auto " style="width: 40vw;">
+<div class="d-flex justify-content-around navbar navbar-expand-lg navbar-light bg-light mx-auto " style="width: 60vw;">
+  <div class="navbar-nav mx-3 d-flex justify-content-center">
+    <a class="nav-link" href="/admin">Display All Items </a>
+  </div>
   <div class="navbar-nav mx-3">
     <a class="nav-link" href="#">Customer </a>
   </div>
   <div class="navbar-nav mx-3">
     <a class="nav-link" href="#">Manage Products </a>
   </div>
-  <form method="post" action = '/admin'  class="d-flex" role="search">
-    <input class="form-control me-2" name = "search" type="search" placeholder="Search Products" aria-label="Search">
+  <form method="post" action = '/admin/search'  class="d-flex" role="search">
+    <input class="form-control me-2" name = "search" type="search" placeholder="Enter product's name" aria-label="Search">
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
 </div>
-
+<div class="px-5 mt-4 alert alert-success d-flex align-items-center justify-content-center" role="alert">
+  We have {{numberResults}} available items !
+</div>
 <div class="mp-2 d-flex justify-content-center flex-wrap ">
   {{#each data}}
   <div class="card mx-5 my-5" style="width: 18rem;">
@@ -23,6 +28,13 @@
         <li>Quantity: {{this.quantity}}</li>
       </ul>
       <p class="card-text">Description: {{this.description}}. </p>
+    <div class="d-flex justify-content-around flex-wrap">
+      <form action="/admin/delete" method="post">
+        <input type="hidden" name="productId" value="{{this._id}}">
+        <button type="submit" class="btn btn-danger" >Delete</button>
+      </form>
+        <a href="/admin/update?product={{this._id}}" class="btn btn-warning" >Update</a>
+    </div>
     </div>
   </div>
   {{/each}}

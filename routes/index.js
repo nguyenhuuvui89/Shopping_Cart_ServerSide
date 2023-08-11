@@ -11,7 +11,15 @@ router.post('/', homeView.userDisplay);
 
 // 1. Admin interface
 router.get('/admin', AdminController.displayProducts);
-router.post('/admin', AdminController.searchProduct);
+router.post('/admin/search', AdminController.searchProduct);
+// [POST] Delete item
+router.post('/admin/delete', AdminController.deleteProduct);
+// [GET] /admin/update?product={} URL View
+router.get('/admin/update', AdminController.updateProductView);
+// Handle [POST] /admin/update?product=
+router.post('/admin', AdminController.updateProduct);
+
+
 
 // 2. User interface
 // Click into Shopping Cart;
