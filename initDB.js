@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const credentials = require('./credentials');
-const { Product, Customer, Cart } = require('./model/modelsDB');
+const { Product, Customer, Cart, Order } = require('./model/modelsDB');
 // Establish connection
 const dbUrl = `mongodb://${credentials.host}:${credentials.port}/${credentials.database}`;
 
@@ -52,7 +52,15 @@ const products = [{
   quantity: 30,
   image: 'https://assets.shop.loblaws.ca/products/21034225/b1/en/brand/21034225_brand_a01_@2.png'
 
-}];
+},
+{
+  productName: 'Sistema To Go Collection Bento Box',
+  description: '100% virgin plastic; phthalate- and BPA-free',
+  price: 9.87,
+  quantity: 1000,
+  image: 'https://static1.squarespace.com/static/6217a6968b376a434418ae8b/t/6416043616fc5e2dca82c202/1679164471002/Show+Your+Love+with+our+Miso+Tasty+Bento+Box+Lunch+Ideas.jpg?format=1500w',
+},
+];
 
 // customer data
 
@@ -75,6 +83,8 @@ async function saveData() {
   try {
     await Product.deleteMany({});
     await Customer.deleteMany({});
+    await Order.deleteMany({});
+    await Cart.deleteMany({});
     await Product.insertMany(products);
     await Customer.insertMany(customers);
     console.log('Data inserted successfully!');

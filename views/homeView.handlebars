@@ -3,7 +3,7 @@
     <div class="form-group">
       {{!-- <label for="customer-input">Customer</label> --}}
       <select name="customer" class = "form-control" id="customer-input">
-          <option selected>Select Customer</option>
+          <option value = '' selected>Select Customer</option>
           {{#each data}}
           <option value={{this.id}}>{{this.fullName}}</option>
           {{/each}}

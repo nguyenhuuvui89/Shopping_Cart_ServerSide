@@ -30,35 +30,6 @@ class UserController {
     res.render('addtocart', { product: product, slug });
   };
 
-  // [GET] /cart?user = customerID cart view
-  cart = async (req, res, next) => {
-    const { user } = req.query;
-    // Retrieved data for customer_id from cart collection
-    const cartProduct = await Cart.find({ customer_id: user }).lean();
-    const numberProduct = cartProduct.length;
-    // calculate whole cart price.
-    let cartPrice = 0;
-    cartProduct.forEach((product) => {
-      const productQtn = product.quantity;
-      const { price } = product;
-      const totalProductPrice = productQtn * price;
-      cartPrice += totalProductPrice;
-    });
-    // Can use Reduce to solve
-    // const totalPrice = cartProduct.reduce((accumulator, product) => {
-    //   const productQtn = product.quantity;
-    //   const { price } = product;
-    //   const totalProductPrice = productQtn * price;
-    //   return accumulator + totalProductPrice;
-    // }, 0)
-    res.render('cart', {
-      data: cartProduct,
-      numberProduct,
-      slug: user,
-      total_price: cartPrice.toFixed(2),
-    });
-  };
-
   // add product to cart [POST] handle at /user/{{slug}}/cart then redirect to `/user/${slug}`
   addCart = async (req, res, next) => {
     const slug = req.body.customerId;
@@ -66,7 +37,7 @@ class UserController {
     const customerQtn = parseFloat(req.body.customerQtn);
     let availableQtn = parseFloat(req.body.availableQtn);
     if (customerQtn > availableQtn) {
-      res.render('outofstock', {slug:slug});
+      res.render('outofstock', {slug:slug, id: id});
     } else {
       availableQtn -= customerQtn;
       const product = await Product.findById({ _id: id });
@@ -95,6 +66,35 @@ class UserController {
       }
       res.redirect(`/user/${slug}`);
     }
+  };
+
+  // [GET] /cart?user = customerID cart view
+  cart = async (req, res, next) => {
+    const { user } = req.query;
+    // Retrieved data for customer_id from cart collection
+    const cartProduct = await Cart.find({ customer_id: user }).lean();
+    const numberProduct = cartProduct.length;
+    // calculate whole cart price.
+    let cartPrice = 0;
+    cartProduct.forEach((product) => {
+      const productQtn = product.quantity;
+      const { price } = product;
+      const totalProductPrice = productQtn * price;
+      cartPrice += totalProductPrice;
+    });
+    // Can use Reduce to solve
+    // const totalPrice = cartProduct.reduce((accumulator, product) => {
+    //   const productQtn = product.quantity;
+    //   const { price } = product;
+    //   const totalProductPrice = productQtn * price;
+    //   return accumulator + totalProductPrice;
+    // }, 0)
+    res.render('cart', {
+      data: cartProduct,
+      numberProduct,
+      slug: user,
+      total_price: cartPrice.toFixed(2),
+    });
   };
 
   // [GET] /cart/:slug/edit?product_id Edit product quantity in cart view
@@ -197,8 +197,9 @@ class UserController {
     const productInCart = await Cart.find({ customer_id: slug });
     const orderProducts = [];
     productInCart.forEach((product) => {
-      const { productName, quantity, image } = product;
+      const { productName, quantity, image, product_id } = product;
       orderProducts.push({
+        product_id,
         productName,
         quantity,
         image,
@@ -206,6 +207,7 @@ class UserController {
       // const productName = product.productName;
       // const quantity = product.quantity;
       // const image = product.image;
+      // const product_id = product.product_id;
       // ---create object--
       // const orderProduct = {
       //   productName: productName,
@@ -249,7 +251,7 @@ class UserController {
     // (loop through data get object, loop through
     // products get product detail in orderview.handlebars)
     if (orders.length === 0) {
-      res.render('noorder');
+      res.render('noorder', { slug });
     } else {
       res.render('orderview', { data: orders, slug });
     }

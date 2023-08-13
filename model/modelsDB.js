@@ -37,6 +37,7 @@ const orderSchema = new Schema({
       productName: String,
       quantity: Number,
       image: String,
+      product_id: String,
     },
   ],
 }, { collection: 'order' });

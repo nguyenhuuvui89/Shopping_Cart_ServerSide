@@ -1,0 +1,44 @@
+<section class="container mt-5 mb-5">
+    <article class="card position-relative d-flex flex-column min-width-0 border border-light-dark rounded p-1">
+        <div class="alert alert-success d-flex justify-content-center align-items-center" role="alert">
+            Customer's name: {{customerName}} ({{customerId}}) has {{numberOrders}} orders.
+        </div>
+        {{#each data}}
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <div class="text-primary">
+                   <p>Order ID: <i>{{this._id}}</i></p> 
+                </div>
+                <form class= 'mb-3' action="/admin/customers/delete" method="post">
+                    <input type="hidden" name="orderId" value="{{this._id}}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Order Date:</strong> <br>{{this.date}} </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br> {{this._id}} </div>
+                </div>
+            </article>
+            <hr class="mt-4">
+            <ul class="row">
+              {{#each products}}
+                <li class="col-md-4">
+                    <figure class="itemside mb-3 position-relative d-flex">
+                        <div class="aside position-relative flex-shrink-0"><img src="{{this.image}}" class="img-sm border"></div>
+                        <figcaption class="info align-self-center">
+                            <p class="title d-block"><br> {{this.productName}}</p>
+                            <span class="text-muted"> Quantity: {{this.quantity}} </span>
+                            <a href="/admin/update?product={{this._id}}" class="mx-2 btn btn-warning btn-sm" >Update</a>
+                        </figcaption>
+                    </figure>
+                </li>
+              {{/each}}
+            </ul>
+        </div>
+        <hr class="mt-4">
+    {{/each}}
+            <hr class="mt-4">
+            <a class=" btn btn-success mx-4 text-decoration-none "  href="/admin">Back To Main</a>
+    </article>
+</section>

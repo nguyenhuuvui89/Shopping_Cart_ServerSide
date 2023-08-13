@@ -10,14 +10,30 @@ router.get('/', homeView.home);
 router.post('/', homeView.userDisplay);
 
 // 1. Admin interface
+
 router.get('/admin', AdminController.displayProducts);
 router.post('/admin/search', AdminController.searchProduct);
 // [POST] Delete item
 router.post('/admin/delete', AdminController.deleteProduct);
 // [GET] /admin/update?product={} URL View
 router.get('/admin/update', AdminController.updateProductView);
+
 // Handle [POST] /admin/update?product=
 router.post('/admin', AdminController.updateProduct);
+
+// Handle [GET] /admin/add view
+router.get('/admin/add', AdminController.addProductView);
+// Handle [POST] at /admin/add request,add new items into database,
+router.post('/admin/add', AdminController.addProduct);
+
+// Handle [GET] /admin/customers url
+router.get('/admin/customers', AdminController.displayCustomers);
+
+// Handle [POST] /admin/customer/orders view specific customer's order
+router.post('/admin/customer/orders', AdminController.customerOrder);
+
+// Handle [POST] /admin/customer/delete delete the customer'order
+router.post('/admin/customers/delete', AdminController.deleteOrder);
 
 
 
