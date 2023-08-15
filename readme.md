@@ -1,6 +1,3 @@
-Product List: http://localhost:3000/admin
-Product Matching a specified name : http://localhost:3000/admin?search=true&productName=Milk
-Products within a specified range (low price, high price): http://localhost:3000/admin?lowPrice=1&highPrice=2
 I. Project Summary
   The project is to develop a shopping cart application for a merchant's website. The project is prioritized server-side functionality using Node.js with Mongodb and Handlebars engine.
 II. Run program.
@@ -28,4 +25,72 @@ III. Shopping Cart.
       Click to manage product to add product
     - Display a list of Customers by clicking to Customer on the navbar. List of customers will be display and you can click to the order button to access their order history. And you can delete their order here. Quantities available for product is updated when you delete their order.
     - If the admin tries to delete a product assigned to an order, the alert will be display.
-
+  3. APIs
+    I. **Product List: http://localhost:3000/admin**
+    II. **Product Matching a specified name : http://localhost:3000/admin?search=true&productName=Milk**
+      Ex: Json
+      + [
+          {
+              "_id": "64d7bce2b4f953a2bf98d1a6",
+              "productName": "Milk",
+              "description": "Dairy",
+              "price": 1.99,
+              "quantity": 13,
+              "image": "https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png",
+              "__v": 0
+          }
+        ]
+      + Ex: XML
+      <?xml version ="1.0"? >
+        <products>
+            <product>
+                <id> 64d7bce2b4f953a2bf98d1a6 </id>
+                <productName> Milk </productName>
+                <description> Dairy</description>
+                <price> 1.99 </price>
+                <quantity> 13 </quantity>
+                <image> https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png </image>
+            </product>
+        </products>
+    III. **Products within a specified range (low price, high price): http://localhost:3000/admin?lowPrice=1&highPrice=2**
+      + Ex: Json
+        [
+          {
+              "_id": "64d7bce2b4f953a2bf98d1a6",
+              "productName": "Milk",
+              "description": "Dairy",
+              "price": 1.99,
+              "quantity": 13,
+              "image": "https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png",
+              "__v": 0
+          },
+          {
+              "_id": "64d7bce2b4f953a2bf98d1a9",
+              "productName": "Tomatoes",
+              "description": "Vegetables",
+              "price": 1.2,
+              "quantity": 30,
+              "image": "https://assets.shop.loblaws.ca/products/20840038001/b1/en/front/20840038001_front_a01_@2.png",
+              "__v": 0
+          }
+        ]
+      + Ex: XML
+          <?xml version="1.0"?>
+            <products>
+                <product>
+                    <id> 64d7bce2b4f953a2bf98d1a6 </id>
+                    <productName> Milk </productName>
+                    <description> Dairy</description>
+                    <price> 1.99 </price>
+                    <quantity> 13 </quantity>
+                    <image> https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png </image>
+                </product>
+                <product>
+                    <id> 64d7bce2b4f953a2bf98d1a9 </id>
+                    <productName> Tomatoes </productName>
+                    <description> Vegetables</description>
+                    <price> 1.2 </price>
+                    <quantity> 30 </quantity>
+                    <image> https://assets.shop.loblaws.ca/products/20840038001/b1/en/front/20840038001_front_a01_@2.png </image>
+                </product>
+            </products>

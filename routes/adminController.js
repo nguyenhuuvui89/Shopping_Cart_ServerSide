@@ -186,12 +186,11 @@ class AdminController {
   // Handle [GET] /admin/customers url
   displayCustomers = async (req, res, next) => {
     const customers = await Customer.find({});
-    const customerInfo = customers.map((customer) => {
-      return {
-        id: customer._id,
-        fullName: customer.getFullName(),
-      }
-    });
+    // Map through customers and return array of object
+    const customerInfo = customers.map((customer) => ({
+      id: customer._id,
+      fullName: customer.getFullName(),
+    }));
     const numberCustomers = customerInfo.length;
     res.render('./admin/displaycustomers', { data: customerInfo, numberCustomers });
   };
@@ -214,7 +213,20 @@ class AdminController {
   updateOrderProduct = async (req, res, next) => {
     const orderId = req.query.order;
     const productId = req.query.product;
+    const orderDetail = await Order.findOne({ _id: orderId, 'products.product_id': productId }).lean();
+    if (!orderDetail) {
+      res.render('./error');
+    } else {
+    // the find() method is used to search for the product with a
+    // specific product_id within the products array in orderDetail
     // find product in Order with _id and product_id (product_id inside products)
+    // return a products example: {
+    //       productName: 'Bananas',
+    //       quantity: 5,
+    //       image: 'https://www.thedailymeal.com/img/gallery/13-delicious-things-you-can-make-with-bananas/l-intro-1673458653.jpg',
+    //       product_id: '64d7bce2b4f953a2bf98d1a5',
+    //       _id: new ObjectId("64daeb2296530450f98e0572")
+    //     }
     // {
     //   _id: new ObjectId("64daeb2296530450f98e0571"),
     //   customer_id: '64d7bce2b4f953a2bf98d1ad',
@@ -236,12 +248,6 @@ class AdminController {
     //   date: 2023-08-15T03:04:02.824Z,
     //   __v: 0
     // }
-    const orderDetail = await Order.findOne({ _id: orderId, 'products.product_id': productId }).lean();
-    // the find() method is used to search for the product with a
-    // specific product_id within the products array in orderDetail
-    if(!orderDetail) {
-      res.render('./error');
-    } else {
       const productToUpdate = orderDetail.products.find((product) => {
         return product.product_id === productId;
       });
@@ -269,6 +275,8 @@ class AdminController {
       product.quantity = availableQtn;
       await product.save();
       if (orderDetail) {
+        // use find() to get the element which satisfy the condition
+        // If use lean() -> can not use save()
         const productToUpdate = orderDetail.products.find((product) => {
           return product.product_id === productId;
         });
