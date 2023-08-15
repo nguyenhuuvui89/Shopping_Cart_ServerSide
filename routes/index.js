@@ -32,6 +32,12 @@ router.get('/admin/customers', AdminController.displayCustomers);
 // Handle [POST] /admin/customer/orders view specific customer's order
 router.post('/admin/customer/orders', AdminController.customerOrder);
 
+// Handle [GET] /admin/customer/update?order={{../this._id}}&product={{this.product_id}}"
+router.get('/admin/customer/update', AdminController.updateOrderProduct);
+
+// Handle [POST] /admin/customer/update when submit product quantity update form of Admin.
+router.post('/admin/customer/update', AdminController.saveUpdateOrderProduct);
+
 // Handle [POST] /admin/customer/delete delete the customer'order
 router.post('/admin/customers/delete', AdminController.deleteOrder);
 

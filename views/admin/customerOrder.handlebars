@@ -29,7 +29,8 @@
                         <figcaption class="info align-self-center">
                             <p class="title d-block"><br> {{this.productName}}</p>
                             <span class="text-muted"> Quantity: {{this.quantity}} </span>
-                            <a href="/admin/update?product={{this._id}}" class="mx-2 btn btn-warning btn-sm" >Update</a>
+                {{!-- Access _id outside products but inside data (customerOrders in order collection) --}}
+                            <a href="/admin/customer/update?order={{../this._id}}&product={{this.product_id}}" class="mx-2 btn btn-warning btn-sm" >Update</a>
                         </figcaption>
                     </figure>
                 </li>

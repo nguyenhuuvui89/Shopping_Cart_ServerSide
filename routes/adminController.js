@@ -210,12 +210,84 @@ class AdminController {
     }
   };
 
+  // Handle [GET] /admin/customer/update?order={{../this._id}}&product={{this.product_id}}"
+  updateOrderProduct = async (req, res, next) => {
+    const orderId = req.query.order;
+    const productId = req.query.product;
+    // find product in Order with _id and product_id (product_id inside products)
+    // {
+    //   _id: new ObjectId("64daeb2296530450f98e0571"),
+    //   customer_id: '64d7bce2b4f953a2bf98d1ad',
+    //   products: [
+    //     {
+    //       productName: 'Bananas',
+    //       quantity: 5,
+    //       image: 'https://www.thedailymeal.com/img/gallery/13-delicious-things-you-can-make-with-bananas/l-intro-1673458653.jpg',
+    //       product_id: '64d7bce2b4f953a2bf98d1a5',
+    //       _id: new ObjectId("64daeb2296530450f98e0572")
+    //     },
+    //     {
+    //       productName: 'Milk',
+    //       quantity: 9,
+    //       image: 'https://assets.shop.loblaws.ca/products/20017001/b1/en/side/20017001_side_a01_@2.png',
+    //       product_id: '64d7bce2b4f953a2bf98d1a6',
+    //       _id: new ObjectId("64daeb2296530450f98e0573")
+    //     }
+    //   date: 2023-08-15T03:04:02.824Z,
+    //   __v: 0
+    // }
+    const orderDetail = await Order.findOne({ _id: orderId, 'products.product_id': productId }).lean();
+    // the find() method is used to search for the product with a
+    // specific product_id within the products array in orderDetail
+    if(!orderDetail) {
+      res.render('./error');
+    } else {
+      const productToUpdate = orderDetail.products.find((product) => {
+        return product.product_id === productId;
+      });
+      res.render('./admin/orderproductupdate', { data: productToUpdate, orderId });
+    }
+  };
+
+  // Handle [POST] /admin/customer/update when submit product quantity update form of Admin.
+  saveUpdateOrderProduct = async (req, res, next) => {
+    const { productId } = req.body;
+    const { orderId } = req.body;
+    const orderQtn = parseFloat(req.body.orderQtn);
+    const updateQtn = parseFloat(req.body.updateQtn);
+    // Find product in Order Collection
+    const orderDetail = await Order.findOne({ _id: orderId, 'products.product_id': productId });
+    // Find product in Product Collection
+    const product = await Product.findById({ _id: productId });
+    let availableQtn = product.quantity;
+    availableQtn += orderQtn;
+    if (updateQtn > availableQtn) {
+      res.render('outofstock');
+    } else {
+      availableQtn -= updateQtn;
+      // update product quantity in Product collection
+      product.quantity = availableQtn;
+      await product.save();
+      if (orderDetail) {
+        const productToUpdate = orderDetail.products.find((product) => {
+          return product.product_id === productId;
+        });
+        if (productToUpdate) {
+          productToUpdate.quantity = updateQtn;
+          await orderDetail.save();
+        }
+      }
+      res.redirect('/admin/customers');
+    }
+  };
+
   // Handle [POST] /admin/customer/orders delete customer order;
   deleteOrder = async (req, res, next) => {
     const { orderId } = req.body;
     const orderDetail = await Order.findById({ _id: orderId });
     const customerId = orderDetail.customer_id;
     const productOrderDetail = orderDetail.products;
+    // Update product quantity.
     productOrderDetail.forEach(async (product) => {
       const productId = product.product_id;
       const productOrderQtn = product.quantity;

@@ -1,0 +1,26 @@
+<div class= 'mt-4 mx-auto' style="width: 600px;">
+  <h3 class="px-5 my-3">Update Product's Quantity</h3>
+  <form method="POST" action="/admin/customer/update">
+    <div class="form-group ">
+      <label for="productName">Product Name:</label>
+      <input type="text" name = 'productName' value = '{{data.productName}}' class="form-control" id="productName"readonly>
+      <input type="hidden" name = 'productId' class="form-control" value='{{data.product_id}}'>
+      <input type="hidden" name = 'orderId' class="form-control" value='{{orderId}}'>
+    </div>
+    <div class="mt-4 h-50 d-flex align-items-center justify-content-center">
+      <img class="img-fluid" src={{data.image}}>
+    </div>
+    <div class="form-group ">
+      <label for="orderQtn">Quantity:</label>
+      <input type="number" name = 'orderQtn' class="form-control" value="{{data.quantity}}" readonly>
+    </div>
+    <div class="form-group ">
+      <label for="updateQtn">Update Quantity:</label>
+      <input type="number" name = 'updateQtn' class="form-control" id="customerQtn" required>
+    </div>
+    <div class='mt-4'>
+      <button type="submit" class=" mx-4 btn btn-primary">Update</button>
+      <a class=" mx-4 btn btn-danger text-decoration-none" href="/admin">Cancel</a>
+   </div>
+  </form>
+</div>
