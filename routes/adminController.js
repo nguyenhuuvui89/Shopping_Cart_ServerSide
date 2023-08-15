@@ -5,7 +5,101 @@ class AdminController {
   displayProducts = async (req, res, next) => {
     const products = await Product.find({}).lean();
     const numberResults = products.length;
-    res.render('./admin/adminInterface', { data: products, numberResults });
+
+    const lowPrice = parseFloat(req.query.lowPrice);
+    const highPrice = parseFloat(req.query.highPrice);
+
+    const productSearch = req.query.productName;
+    const product = new RegExp(productSearch, 'i');
+    const searchResult = req.query.search;
+    const filteredProducts = products.filter((p) => product.test(p.productName));
+    // eslint-disable-next-line no-unused-expressions
+    // Handle case when have ?lowPrice = and ?highPrice =
+    // http://localhost:3000/admin?lowPrice=1&highPrice=2
+    if (!isNaN(lowPrice) && !isNaN(highPrice)) {
+      const filteredProductsPrice = products.filter(
+        (p) => p.price >= lowPrice && p.price <= highPrice);
+      res.format({
+        'application/json': () => {
+          res.json(filteredProductsPrice);
+        },
+        'application/xml': () => {
+          let resultXML = `<?xml version="1.0"?>
+            <products>`;
+          filteredProductsPrice.forEach((e) => {
+            resultXML += `<product>
+                                  <id> ${e._id} </id>
+                                  <productName> ${e.productName} </productName>
+                                  <description> ${e.description}</description>
+                                  <price> ${e.price} </price>
+                                  <quantity> ${e.quantity} </quantity>
+                                  <image> ${e.image} </image>
+                              </product>`;
+          });
+          resultXML += '</products>';
+          res.type('application/xml');
+          res.send(resultXML);
+        },
+        'text/html': () => {
+          res.render('./admin/adminInterface', { data: filteredProductsPrice });
+        },
+      });
+      // Handle case when to provide API for display product list and product matching name
+    } else {
+      // (http://localhost:3000/admin) (http://localhost:3000/admin?search=true&productName=Milk)
+      res.format({
+        'application/json': () => {
+          if (searchResult === 'true') {
+            res.json(filteredProducts);
+          } else {
+            res.json(products);
+          }
+        },
+        // Implement XML;
+        'application/xml': () => {
+          let resultXML = `<?xml version ="1.0"? >
+            <products>`;
+          if (searchResult === 'true') {
+            filteredProducts.forEach((e) => {
+              resultXML += `<product>
+                                  <id> ${e._id} </id>
+                                  <productName> ${e.productName} </productName>
+                                  <description> ${e.description}</description>
+                                  <price> ${e.price} </price>
+                                  <quantity> ${e.quantity} </quantity>
+                                  <image> ${e.image} </image>
+                              </product>`;
+            });
+            resultXML += '</products>';
+            res.type('application/xml');
+            res.send(resultXML);
+          } else {
+            products.forEach((e) => {
+              resultXML += `<product>
+                                  <id> ${e._id} </id>
+                                  <productName> ${e.productName} </productName>
+                                  <description> ${e.description}</description>
+                                  <price> ${e.price} </price>
+                                  <quantity> ${e.quantity} </quantity>
+                                  <image> ${e.image} </image>
+                              </product>`;
+            });
+            resultXML += '</products>';
+            res.type('application/xml');
+            res.send(resultXML);
+          }
+          // Loop through products to get detail;
+        },
+        // Implement html
+        'text/html': () => {
+          if (searchResult === 'true') {
+            res.render('./admin/adminInterface', { data: filteredProducts, numberResults });
+          } else {
+            res.render('./admin/adminInterface', { data: products, numberResults });
+          }
+        },
+      });
+    }
   };
 
   // [POST]/admin/search products by name.

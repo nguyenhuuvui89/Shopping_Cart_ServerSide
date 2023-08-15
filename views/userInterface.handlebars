@@ -27,9 +27,13 @@
         <li>Quantity: {{this.quantity}}</li>
       </ul>
       <p class="card-text">Description: {{this.description}}. </p>
-      
+      {{!-- Check if quantity is > 0 --}}
+      {{#if this.quantity}}
 {{!-- ../id to access parent id (customer id) (customer id of { data: products, id }) --}}
       <a href="/user/{{../id}}/{{this._id}}" class="btn btn-primary" >Add to Cart</a>
+      {{else}}
+      <button class="btn btn-warning" disabled>Out of Stock</button>
+      {{/if}}
     </div>
   </div>
   {{/each}}
