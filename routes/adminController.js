@@ -115,9 +115,10 @@ class AdminController {
   // [POST] /admin handle delete product
   deleteProduct = async (req, res, next ) => {
     const { productId } = req.body;
-    const products = await Product.find({ _id: productId });
+    // Querying a nested field within the products array of the documents in the Order collection.
+    const productInOrder = await Order.find({ 'products.product_id': productId });
     // Check if product in the order
-    if (products.length !== 0) {
+    if (productInOrder.length !== 0) {
       res.render('./admin/nodelete');
     } else {
       await Product.deleteOne({ _id: productId });

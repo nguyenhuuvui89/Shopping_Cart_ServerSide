@@ -10,7 +10,7 @@ III. Shopping Cart.
     - Display a list of products (unique id, name, description, price, and stock quantity).
     - Search Product by name.
     - Select a product  and and specify the desired quantity to add to the shopping cart. If customer input the desired quantity which is higher than the available quantity of product, the alert will showed. If the  product is empty, the At to cart button will change to out of stock and button is disabled. Quantities available for product is updated
-    - Customer can update their shopping cart (remove products, update quantity, and add products). Shopping cart also show total amount of cart. Ex. If customer remove products, the product's quantity will be put back to stock.
+    - Customer can update their shopping cart (remove products, update quantity, and add products). Shopping cart also show total amount of cart. Ex. If customer remove products, the product's quantity will be put back to stock. If there is no products in cart, Place order will be disable.
     - When customers submit the order, shopping cart becomes empty. Quantities available for product is updated.
     - After customers submit the cart, they can access the list of the previous order.
     - Display a main menu to go:

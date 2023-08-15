@@ -180,6 +180,7 @@ class UserController {
     //   await productDelete.remove();
     // res.redirect(`/cart?user=${slug}`);
     // }
+    // -------------------------------------
     // Mongoose version 7x, remove() has been removed
     // Delete the product from the Cart collection
     // deleteOne is delete first document, use deleteMany for delete all results
