@@ -4,6 +4,8 @@ II. Run program.
   1. npm install
   2. Run initDB.js
   3. Run server.js
+  4. URL Access Main/Home page: http://localhost:3000/
+  5. URL access Admin page: http://localhost:3000/admin or click into Admin in the homepage
 III. Shopping Cart.
   1. Customer Interface
     - Choose Customer from the drop down menu and start shopping. You can not start shopping if you not choose customer.
@@ -23,7 +25,7 @@ III. Shopping Cart.
     - Search Product by name.
     - Products Maintenance form – update, or delete products by clicking to update and delete button in product card.
       Click to manage product to add product
-    - Display a list of Customers by clicking to Customer on the navbar. List of customers will be display and you can click to the order button to access their order history. And you can delete their order here. Quantities available for product is updated when you delete their order.
+    - Display a list of Customers by clicking to Customer on the navbar. List of customers will be display and you can click to the order button to access their order history. And you can delete their order here. Quantities available for product is updated when you delete their order.( The order is deleted from customer)
     - If the admin tries to delete a product assigned to an order, the alert will be display.
   3. APIs
     I. **Product List: http://localhost:3000/admin**
